@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <div>
+    <h1>Fake Whatsappp</h1>
+    <input (keyup)="$event.keyCode == 13 && sendMessage(message)" #message>
+    <button (click)="sendMessage(message)">Invia</button>
+  </div>
+  <div *ngFor = "let message of messageList">
+    {{message}}
+  </div>
+</html>
