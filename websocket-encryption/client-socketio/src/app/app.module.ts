@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { SocketService } from './socket.service';
 import { CesarService } from './cesar.service';
+import { CryptoService } from './crypto.service';
+import { FormsModule } from '@angular/forms';
 
 const config: SocketIoConfig = { url: 'http://127.0.0.1:3000', options: {}};
 
@@ -17,9 +19,10 @@ const config: SocketIoConfig = { url: 'http://127.0.0.1:3000', options: {}};
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    FormsModule
   ],
-  providers: [SocketService, CesarService],
+  providers: [SocketService, CesarService, CryptoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,19 +3,35 @@
   <head>
     <link rel="script" href="">
   </head>
-  <div>
-    <h1>Fake Whatsappp</h1>
-      <h4>Imposta l'offset</h4>
+
+    <div class="center">
+      <h1>Fake Whatsappp</h1>
+    <br>
+    <div>
       <input id="offsetValue" (keyup)="$event.keyCode == 13 && getOffset(offset)" #offset>
-      <button class="buttonOffset" (click)="getOffset(offset)">Imposta</button>
+      <button class="buttonOffset btn-success" (click)="getOffset(offset)">Imposta</button>
+      encryption key: {{offsetVal}}
+    </div> 
+    <br>
+      <form #myForm="ngForm" (submit)="sendMessage(myForm.value)" novalidate>
+        <div>
+          <input id="cesar" type="radio" value="cesar" name="messageType" ngModel>
+          <label for="t-des"> Cesar </label>
+        </div>
+
+        <div>
+          <input id="t-des" type="radio" value="t-des" name="messageType" ngModel>
+          <label for="cesar"> Triple Des </label>
+        </div>
+        <br>
+        <input type="text" id="message" [(ngModel)]="message" name="message">
+      <button class="encrBtn btn-warning" type="submit">Encrypt e invia</button>
+      </form>
       <br>
-      <h4>Inserisci il messaggio</h4>
-      <input (keyup)="$event.keyCode == 13 && sendMessage(message)" #message>
-      <button class="buttonMsg" (click)="sendMessage(message)">Invia</button>
-      <br>
-  </div>
-  <div >
-    <p *ngFor = "let coded of codedList">Messaggio cifrato: {{coded}}</p>
-    <p *ngFor = "let message of messageList">Messaggio decifrato: {{message}}</p>
-  </div>
+      
+      <hr>
+      <div *ngFor="let message of messageList">
+        {{message}}
+      </div>
+    </div>
 </html>
