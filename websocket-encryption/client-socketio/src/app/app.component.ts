@@ -40,7 +40,7 @@ export class AppComponent {
     
     this.messageList.push(decoded);
     this.codedList.push(message);
-    console.log("message received: " + this.offsetVal)
+    console.log("message received: " + decoded)
   }
 
   ngOnInit() {
