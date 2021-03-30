@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="script" href="">
   </head>
   <div>
     <h1>Fake Whatsappp</h1>
-    <input (keyup)="$event.keyCode == 13 && sendMessage(message)" #message>
-    <button (click)="sendMessage(message)">Invia</button>
+      <h4>Imposta l'offset</h4>
+      <input id="offsetValue" (keyup)="$event.keyCode == 13 && getOffset(offset)" #offset>
+      <button class="buttonOffset" (click)="getOffset(offset)">Imposta</button>
+      <br>
+      <h4>Inserisci il messaggio</h4>
+      <input (keyup)="$event.keyCode == 13 && sendMessage(message)" #message>
+      <button class="buttonMsg" (click)="sendMessage(message)">Invia</button>
+      <br>
   </div>
-  <div *ngFor = "let message of messageList">
-    {{message}}
+  <div >
+    <p *ngFor = "let coded of codedList">Messaggio cifrato: {{coded}}</p>
+    <p *ngFor = "let message of messageList">Messaggio decifrato: {{message}}</p>
   </div>
 </html>

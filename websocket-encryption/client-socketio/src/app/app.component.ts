@@ -1,4 +1,6 @@
+import { HtmlAstPath } from '@angular/compiler';
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CesarService } from './cesar.service';
 import { SocketService } from './socket.service';
 
@@ -10,6 +12,14 @@ import { SocketService } from './socket.service';
 export class AppComponent {
   title = 'client-socketio';
   messageList: string[] = [];
+  obs : Observable<unknown>;
+  codedList: string[] = [];
+  offsetVal : string
+
+  getOffset(offset: HTMLInputElement) {
+    this.offsetVal = offset.value;
+
+  }
 
   constructor(
     private socketService: SocketService,
@@ -17,7 +27,7 @@ export class AppComponent {
     ) {}
 
   sendMessage(message: HTMLInputElement) {
-    let encoded = this.cesarService.encode(message.value, 7);
+    let encoded = this.cesarService.encode(message.value, Number(this.offsetVal));
     this.socketService.sendMessage(encoded);
 
     console.log("sent: " + encoded);
@@ -25,11 +35,24 @@ export class AppComponent {
     
   }
 
+  receiveMessage = (message: string) => {
+    let decoded = this.cesarService.decode(message, Number(this.offsetVal))
+    
+    this.messageList.push(decoded);
+    this.codedList.push(message);
+    console.log("message received: " + this.offsetVal)
+  }
+
   ngOnInit() {
+    this.obs = this.socketService.getMessage();
+    this.obs.subscribe(this.receiveMessage);
+  }
+
+  /*ngOnInit() {
     this.socketService.getMessage().subscribe((message: string) => {
       let decoded = this.cesarService.decode(message, 7)
-      this.messageList.push(decoded);
+      this.messageList.push(message);
       console.log("message received:", decoded)
     });
-  }
+  }*/
 }
