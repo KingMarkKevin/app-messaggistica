@@ -14,14 +14,20 @@
     </div> 
     <br>
       <form #myForm="ngForm" (submit)="sendMessage(myForm.value)" novalidate>
+        
         <div>
           <input id="cesar" type="radio" value="cesar" name="messageType" ngModel>
-          <label for="t-des"> Cesar </label>
+          <label for="cesar">Cesar</label>
         </div>
 
         <div>
           <input id="t-des" type="radio" value="t-des" name="messageType" ngModel>
-          <label for="cesar"> Triple Des </label>
+          <label for="t-des">Triple Des</label>
+        </div>
+
+        <div>
+          <input id="aes" type="radio" value="aes" name="messageType" ngModel>
+          <label for="aes">AES</label>
         </div>
         <br>
         <input type="text" id="message" [(ngModel)]="message" name="message">

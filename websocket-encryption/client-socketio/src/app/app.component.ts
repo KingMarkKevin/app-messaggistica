@@ -20,21 +20,22 @@ export class AppComponent {
   offsetVal : string;
   message: string;
 
-  getOffset(offset: HTMLInputElement) {
-    this.offsetVal = offset.value;
-
-  }
-
   constructor(
     private socketService: SocketService,
     private cesarService: CesarService,
     private cryptoService: CryptoService
     ) {}
 
+  getOffset(offset: HTMLInputElement) {
+    this.offsetVal = offset.value;
+  
+  }
+
   sendMessage(formData : FormData) {
     console.log("form input: " + JSON.stringify(formData));
 
     let encoded: FormData = formData;
+    
     switch (formData.messageType) {
       case "cesar":
         encoded.message = this.cesarService.encode(formData.message, Number(this.offsetVal));
@@ -43,11 +44,16 @@ export class AppComponent {
       case "t-des":
         encoded.message = this.cryptoService.encodeDes(formData.message, this.offsetVal);
         break;
+      
+      case "aes":
+        encoded.message = this.cryptoService.encodeAes(formData.message, this.offsetVal);
+        break;
     }
 
     this.socketService.sendMessage(JSON.stringify(encoded));
 
     this.message = ""
+
     /*let encoded = this.cesarService.encode(message.value, Number(this.offsetVal));
     this.socketService.sendMessage(encoded);
 
@@ -68,6 +74,9 @@ export class AppComponent {
       case "t-des":
         received.message = this.cryptoService.decodeDes(received.message, this.offsetVal);
         break;
+      
+      case "aes":
+        received.message = this.cryptoService.decodeAes(received.message, this.offsetVal);
     }
 
     this.messageList.push("messagio cifrato: " + messageData + " messaggio decifrato " + JSON.stringify(received))
@@ -83,6 +92,7 @@ export class AppComponent {
     this.obs = this.socketService.getMessage();
     this.obs.subscribe(this.decodeData);
   }
+
   /*ngOnInit() {
     this.socketService.getMessage().subscribe((message: string) => {
       let decoded = this.cesarService.decode(message, 7)
